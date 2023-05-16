@@ -6,8 +6,10 @@ public class FollowPlayer : MonoBehaviour
 {
     private GameObject player;
     public Vector3 offset;
-    float overrider  = 0.002f;
+    public float camSpeed  = 0.004f;
     int iterator = 0;
+    public bool maxSpeed = true;
+    public bool sraka = false;
 
     // Start is called before the first frame update
     void Start()
@@ -19,13 +21,17 @@ public class FollowPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y + overrider, transform.position.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y + camSpeed, transform.position.z);
 
         iterator++;
-        if(overrider < 0.005f && iterator == 10) 
+        if(camSpeed < 0.008f && iterator == 10) 
         {
-            overrider += 0.00001f;
+            camSpeed += 0.00001f;
             iterator = 0;
+        }
+        else if(camSpeed >= 0.008f)
+        {
+            maxSpeed = true;
         }
     }
 }

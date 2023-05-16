@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Collectible
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -51,4 +52,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 2595507689
+    locked: 0
+  - name: New Layer 4
+    uniqueID: 1811861939
     locked: 0
