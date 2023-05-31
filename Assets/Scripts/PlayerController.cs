@@ -11,6 +11,12 @@ public class PlayerController : MonoBehaviour
     public GameObject mainCamera;
     public int headBumpCount = 0;
 
+    public int zFound = 0;
+    public int eFound = 0;
+    public int rFound = 0;
+
+    bool flipped = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +50,9 @@ public class PlayerController : MonoBehaviour
             rb2d.velocity += Vector2.up * Physics2D.gravity.y * (2.5f - 1) * Time.deltaTime;
         }
 
+        flipped = rb2d.velocity.x < 0;
+        this.transform.rotation = Quaternion.Euler(new Vector3(0f, flipped ? 180f : 0f, 0f));
+
         //make player unable to leave the screen
         if (transform.position.y > mainCamera.transform.position.y + 5.2f)
         {
@@ -69,9 +78,17 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.name == "Ruby")
         {
-            jumpCount = 0;
+            rFound++;
+        }
+        if (collision.gameObject.name == "Zaphire")
+        {
+            zFound++;
+        }
+        if (collision.gameObject.name == "Emerald")
+        {
+            eFound++;
         }
     }
 }

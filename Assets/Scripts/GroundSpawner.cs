@@ -6,14 +6,18 @@ public class GroundSpawner : MonoBehaviour
 {
     public GameObject groundPrefab;
     public GameObject zaphire;
+    public GameObject emerald;
+    public GameObject ruby;
     public FollowPlayer followPlayer;
     public GameObject wall1;
+    public GameObject enemy;
     public bool hasGround = false;
     public float previousOffset;
     public float offset;
     public float wallOffset;
 
     
+    private GameObject collectible;
     private GameObject wall;
     public GameObject wall_hole;
 
@@ -55,6 +59,11 @@ public class GroundSpawner : MonoBehaviour
             float los = GenerateRandomFloat(0.0f, 1.0f);
             if (los > 0f)
             {
+                if(los > 0.3)
+                {
+                    Instantiate(enemy, new Vector3(GenerateRandomFloat(-3f, 3f), transform.position.y - 1.6f, 0), Quaternion.identity);
+                }
+
                 if(los > 0.8f)
                 {
                     wall = wall_hole;
@@ -63,19 +72,12 @@ public class GroundSpawner : MonoBehaviour
                 {
                     wall = wall1;
                 }
+
                 wallOffset = GenerateRandomFloat(-3f, 3f);
                 if(!(wallOffset - offset > -3f && wallOffset - offset < -1.2f) && !(wallOffset - previousOffset > -3f && wallOffset - previousOffset < -1.2f))
                 {
                     Instantiate(wall, new Vector3(wallOffset, transform.position.y - 1.6f, 0), Quaternion.identity);
                 }
-                //else
-                // {
-                //     wallOffset = GenerateRandomFloat(-3f, 3f);
-                //     if(!(wallOffset - offset > -3f && wallOffset - offset < -1.2f) && !(wallOffset - previousOffset > -3f && wallOffset - previousOffset < -1.2f))
-                //     {
-                //         Instantiate(wall, new Vector3(wallOffset, transform.position.y - 1.6f, 0), Quaternion.identity);
-                //     }
-                // }
                 else
                 {
                     wallOffset += 1.4f;
@@ -90,14 +92,27 @@ public class GroundSpawner : MonoBehaviour
                 }
             }
 
-            if(GenerateRandomFloat(0.0f, 1.0f) > 0.5f)
+            if(GenerateRandomFloat(0.0f, 1.0f) > 0.2f)
             {
-                float zaphireOffset = GenerateRandomFloat(-3f, 3f);
-                if(wallOffset - zaphireOffset > -0.4f && wallOffset - zaphireOffset < 0.4f)
+                float collectibleOffset = GenerateRandomFloat(-3f, 3f);
+                if(wallOffset - collectibleOffset > -0.4f && wallOffset - collectibleOffset < 0.4f)
                 {
-                    zaphireOffset -= 0.4f;
+                    collectibleOffset -= 0.4f;
                 }
-                Instantiate(zaphire, new Vector3(GenerateRandomFloat(-3f, 3f), transform.position.y - 1.6f, 0), Quaternion.identity);
+                float rareness = GenerateRandomFloat(0.0f, 1.0f);
+                if(rareness > 0.9f)
+                {
+                    collectible = ruby;
+                }
+                else if(rareness > 0.6f)
+                {
+                    collectible = emerald;
+                }
+                else
+                {
+                    collectible = zaphire;
+                }
+                Instantiate(collectible, new Vector3(GenerateRandomFloat(-3f, 3f), transform.position.y - 1.6f, 0), Quaternion.identity);
             }
         }
     }
