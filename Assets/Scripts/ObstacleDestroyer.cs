@@ -28,6 +28,10 @@ public class ObstacleDestroyer : MonoBehaviour
         // {
         //     hasGround = false;
         // }
+        if(collision.gameObject != null)
+        {
+            
         Destroy(collision.gameObject);
+        }
     }
 }

@@ -7,14 +7,15 @@ public class GroundSpawner : MonoBehaviour
     public GameObject groundPrefab;
     public GameObject zaphire;
     public FollowPlayer followPlayer;
-    public GameObject wall2;
     public GameObject wall1;
     public bool hasGround = false;
-    private float previousOffset;
-    private float offset;
+    public float previousOffset;
+    public float offset;
+    public float wallOffset;
 
     
     private GameObject wall;
+    public GameObject wall_hole;
 
     // Start is called before the first frame update
     void Start()
@@ -38,35 +39,65 @@ public class GroundSpawner : MonoBehaviour
     {
         previousOffset = offset;
         offset = GenerateRandomFloat(0.0f, 4.3f);
-        if(offset - previousOffset < 1 && offset - previousOffset > -1)
+        if(offset - previousOffset < 1.5f && offset - previousOffset > -1.5f)
         {
             offset = GenerateRandomFloat(0.0f, 4.3f);
-            previousOffset = offset;
+            if(offset - previousOffset < 1.5f && offset - previousOffset > -1.5f)
+            {
+                offset = GenerateRandomFloat(0.0f, 4.3f);
+            }   
 
         }
         Instantiate(groundPrefab, new Vector3(offset, transform.position.y, 0), Quaternion.identity);
-        //if(GenerateRandomFloat(0.0f, 1.0f) > 0.5f)
-        if(true)
-        {
-            //Instantiate(zaphire, new Vector3(GenerateRandomFloat(0.0f, 4.3f) - 3.1f, transform.position.y - 2.5f, 0), Quaternion.identity);
-        }
+        
         if(followPlayer.maxSpeed == true)
         {
-            if (GenerateRandomFloat(0.0f, 1.0f) > 0f)
+            float los = GenerateRandomFloat(0.0f, 1.0f);
+            if (los > 0f)
             {
-                float wallOffset = GenerateRandomFloat(-3f, 3f);
+                if(los > 0.8f)
+                {
+                    wall = wall_hole;
+                }
+                else
+                {
+                    wall = wall1;
+                }
+                wallOffset = GenerateRandomFloat(-3f, 3f);
                 if(!(wallOffset - offset > -3f && wallOffset - offset < -1.2f) && !(wallOffset - previousOffset > -3f && wallOffset - previousOffset < -1.2f))
                 {
                     Instantiate(wall, new Vector3(wallOffset, transform.position.y - 1.6f, 0), Quaternion.identity);
                 }
+                //else
+                // {
+                //     wallOffset = GenerateRandomFloat(-3f, 3f);
+                //     if(!(wallOffset - offset > -3f && wallOffset - offset < -1.2f) && !(wallOffset - previousOffset > -3f && wallOffset - previousOffset < -1.2f))
+                //     {
+                //         Instantiate(wall, new Vector3(wallOffset, transform.position.y - 1.6f, 0), Quaternion.identity);
+                //     }
+                // }
                 else
                 {
-                    wallOffset = GenerateRandomFloat(-3f, 3f);
+                    wallOffset += 1.4f;
+                    if(wallOffset > 3f)
+                    {
+                        wallOffset -= 3f;
+                    }
                     if(!(wallOffset - offset > -3f && wallOffset - offset < -1.2f) && !(wallOffset - previousOffset > -3f && wallOffset - previousOffset < -1.2f))
                     {
                         Instantiate(wall, new Vector3(wallOffset, transform.position.y - 1.6f, 0), Quaternion.identity);
                     }
                 }
+            }
+
+            if(GenerateRandomFloat(0.0f, 1.0f) > 0.5f)
+            {
+                float zaphireOffset = GenerateRandomFloat(-3f, 3f);
+                if(wallOffset - zaphireOffset > -0.4f && wallOffset - zaphireOffset < 0.4f)
+                {
+                    zaphireOffset -= 0.4f;
+                }
+                Instantiate(zaphire, new Vector3(GenerateRandomFloat(-3f, 3f), transform.position.y - 1.6f, 0), Quaternion.identity);
             }
         }
     }

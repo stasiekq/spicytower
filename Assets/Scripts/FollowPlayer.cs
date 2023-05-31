@@ -9,7 +9,7 @@ public class FollowPlayer : MonoBehaviour
     public float camSpeed  = 0.004f;
     int iterator = 0;
     public bool maxSpeed = true;
-    public bool sraka = false;
+    public bool sraka = true;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +29,7 @@ public class FollowPlayer : MonoBehaviour
             camSpeed += 0.00001f;
             iterator = 0;
         }
-        else if(camSpeed >= 0.008f)
+        else if(camSpeed >= 0.007f)
         {
             maxSpeed = true;
         }
