@@ -26,8 +26,6 @@ public class GroundSpawner : MonoBehaviour
     {
         wall = wall1;
         previousOffset = GenerateRandomFloat(0.0f, 4.3f);
-        //Instantiate(groundPrefab, new Vector3(previousOffset, transform.position.y - 1, 0), Quaternion.identity);
-        //InvokeRepeating("SpawnGround", 3f, 2.2f);
     }
 
     // Update is called once per frame
@@ -57,7 +55,7 @@ public class GroundSpawner : MonoBehaviour
         if(followPlayer.maxSpeed == true)
         {
             float los = GenerateRandomFloat(0.0f, 1.0f);
-            if (los > 0f)
+            if (los > 0.7f)
             {
                 if(los > 0.3)
                 {
@@ -92,14 +90,14 @@ public class GroundSpawner : MonoBehaviour
                 }
             }
 
-            if(GenerateRandomFloat(0.0f, 1.0f) > 0.2f)
+            if(GenerateRandomFloat(0f, 1f) > 0.2f)
             {
                 float collectibleOffset = GenerateRandomFloat(-3f, 3f);
                 if(wallOffset - collectibleOffset > -0.4f && wallOffset - collectibleOffset < 0.4f)
                 {
                     collectibleOffset -= 0.4f;
                 }
-                float rareness = GenerateRandomFloat(0.0f, 1.0f);
+                float rareness = GenerateRandomFloat(0f, 1f);
                 if(rareness > 0.9f)
                 {
                     collectible = ruby;
